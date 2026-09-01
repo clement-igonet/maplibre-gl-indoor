@@ -831,8 +831,7 @@
             "text-ignore-placement": false,
             "text-max-angle": 38,
             "text-font": [
-                "DIN Offc Pro Medium",
-                "Arial Unicode MS Regular"
+                "Noto Sans Regular"
             ],
             "symbol-placement": "point",
             "text-padding": 2,
@@ -912,8 +911,7 @@
             "text-max-angle": 38,
             "symbol-spacing": 250,
             "text-font": [
-                "DIN Offc Pro Medium",
-                "Arial Unicode MS Regular"
+                "Noto Sans Regular"
             ],
             "symbol-placement": "point",
             "text-padding": 2,
