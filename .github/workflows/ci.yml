@@ -18,3 +18,28 @@ jobs:
       - run: npm run build-lib
       - run: npm run build-examples
       - run: npm run build-dts
+
+  compose:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build via compose
+        run: docker compose run --rm build
+
+      - name: Built files exist
+        run: |
+          test -f dist/lib/maplibre-gl-indoor.umd.js
+          test -f dist/lib/maplibre-gl-indoor.d.ts
+          test -f dist/examples/index.html
+
+      - name: Preview serves the examples
+        run: |
+          docker compose up -d preview
+          ok=""
+          for i in $(seq 1 30); do
+            if curl -sf http://localhost:4173/simple-map.html > /dev/null; then ok=1; break; fi
+            sleep 2
+          done
+          docker compose down
+          test -n "$ok"
