@@ -1,21 +1,19 @@
-import { Map as MapboxMap } from 'mapbox-gl';
+import { Map as MapLibreMap } from 'maplibre-gl';
 
-import accessToken from './mapbox-access-token';
-import { addIndoorTo, IndoorControl, IndoorMap, MapboxMapWithIndoor } from '../src/index';
+import { addIndoorTo, IndoorControl, IndoorMap, MaplibreMapWithIndoor } from '../src/index';
 
-import 'mapbox-gl/dist/mapbox-gl.css';
+import 'maplibre-gl/dist/maplibre-gl.css';
 import './style.css';
 
 const app = document.querySelector<HTMLDivElement>('#app')!
 
-const map = new MapboxMap({
+const map = new MapLibreMap({
     container: app,
     zoom: 18,
     center: [2.3592843, 48.8767904],
-    style: 'mapbox://styles/mapbox/streets-v10',
-    accessToken,
+    style: 'https://tiles.openfreemap.org/styles/liberty',
     hash: true
-}) as MapboxMapWithIndoor;
+}) as MaplibreMapWithIndoor;
 
 /**
  * Indoor specific
@@ -29,3 +27,6 @@ map.indoor.addMap(IndoorMap.fromGeojson(geojson));
 
 // Add the specific control
 map.addControl(new IndoorControl());
+
+// exposed for automated smoke tests
+;(window as unknown as {__map: unknown}).__map = map;

@@ -45,7 +45,7 @@ class IndoorLayer {
         if (this._map.loaded()) {
             this._mapLoadedPromise = Promise.resolve();
         } else {
-            this._mapLoadedPromise = new Promise(resolve => this._map.on('load', resolve));
+            this._mapLoadedPromise = new Promise(resolve => this._map.on('load', () => resolve()));
         }
 
         this._map.on('moveend', () => this._updateSelectedMapIfNeeded());
@@ -68,7 +68,7 @@ class IndoorLayer {
         this._level = level;
         this._updateFiltering();
         if (fireEvent) {
-            this._map.fire('indoor.level.changed', { level });
+            this._map.fire('indoor.level.changed' as never, { level } as never);
         }
     }
 
@@ -169,7 +169,7 @@ class IndoorLayer {
             }
 
             this.setLevel(null, false);
-            this._map.fire('indoor.map.unloaded', { indoorMap: previousMap });
+            this._map.fire('indoor.map.unloaded' as never, { indoorMap: previousMap } as never);
         }
 
         this._selectedMap = indoorMap;
@@ -198,7 +198,7 @@ class IndoorLayer {
 
         this.setLevel(level, false);
 
-        this._map.fire('indoor.map.loaded', { indoorMap });
+        this._map.fire('indoor.map.loaded' as never, { indoorMap } as never);
     }
 
     _closestMap() {

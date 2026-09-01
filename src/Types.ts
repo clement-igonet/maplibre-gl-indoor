@@ -1,11 +1,8 @@
 import type { FeatureCollection, Geometry } from 'geojson';
-import type { 
-    Map as MapboxMap
-} from 'mapbox-gl';
-import type { 
-    Map as MaplibreMap, 
-    Listener as MaplibreListener, 
-    ExpressionSpecification as MaplibreExpressionSpecification
+import type {
+    Map as MaplibreMap,
+    ExpressionSpecification as MaplibreExpressionSpecification,
+    LayerSpecification as MaplibreLayerSpecification
 } from 'maplibre-gl';
 
 import type IndoorLayer from './IndoorLayer';
@@ -27,24 +24,25 @@ export type IndoorMapOptions = {
 
 export type IndoorMapGeoJSON = FeatureCollection<Geometry>;
 
-// The two following types should come from mapboxgl-style-spec
-export type LayerSpecification = any;
+export type LayerSpecification = MaplibreLayerSpecification;
 export type ExpressionSpecification = MaplibreExpressionSpecification;
 
-export type MapGL = MapboxMap | MaplibreMap;
-
-export type MapboxMapWithIndoor = MapboxMap & {
-    indoor: IndoorLayer,
-};
+export type MapGL = MaplibreMap;
 
 export type IndoorMapEvent = 'indoor.map.loaded'
     | 'indoor.map.unloaded'
-    | 'indoor.level.changed';
+    | 'indoor.level.changed'
+    | 'indoor.control.clicked';
 
 export type MaplibreMapWithIndoor = MaplibreMap & {
     indoor: IndoorLayer,
-    on(type: IndoorMapEvent, listener: MaplibreListener): MaplibreMap;
-    off(type: IndoorMapEvent, listener: MaplibreListener): MaplibreMap;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    on(type: IndoorMapEvent, listener: (ev: any) => void): MaplibreMap;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    off(type: IndoorMapEvent, listener: (ev: any) => void): MaplibreMap;
 };
 
-export type MapGLWithIndoor = MapboxMapWithIndoor | MaplibreMapWithIndoor;
+/** @deprecated mapbox-gl support was dropped; kept as an alias for old imports. */
+export type MapboxMapWithIndoor = MaplibreMapWithIndoor;
+
+export type MapGLWithIndoor = MaplibreMapWithIndoor;

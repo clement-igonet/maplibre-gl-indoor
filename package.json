@@ -1,10 +1,10 @@
 {
-  "name": "map-gl-indoor",
-  "description": "A MapGL plugin to visualize multi-level buildings",
+  "name": "maplibre-gl-indoor",
+  "description": "A MapLibre GL JS plugin for multi-floor indoor maps.",
   "version": "0.5.0",
-  "main": "dist/lib/map-gl-indoor.umd.js",
-  "module": "dist/lib/map-gl-indoor.es.js",
-  "types": "dist/lib/map-gl-indoor.d.ts",
+  "main": "dist/lib/maplibre-gl-indoor.umd.js",
+  "module": "dist/lib/maplibre-gl-indoor.es.js",
+  "types": "dist/lib/maplibre-gl-indoor.d.ts",
   "files": [
     "dist"
   ],
@@ -15,13 +15,11 @@
     "build-examples": "tsc && vite build --emptyOutDir -c vite.examples.config.js",
     "serve": "vite preview",
     "lint": "eslint --ext .js,.ts src",
-    "build-dts": "dts-bundle-generator -o dist/lib/map-gl-indoor.d.ts src/index.ts",
-    "prepublishOnly": "npm run build-lib && npm run build-examples && npm run build-dts"
+    "build-dts": "dts-bundle-generator -o dist/lib/maplibre-gl-indoor.d.ts src/index.ts",
+    "prepublishOnly": "npm run build-lib && npm run build-examples && npm run build-dts",
+    "prepare": "npm run build-lib && npm run build-dts"
   },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/map-gl-indoor/map-gl-indoor.git"
-  },
+  "repository": "github:clement-igonet/maplibre-gl-indoor",
   "keywords": [
     "indoor",
     "building",
@@ -36,36 +34,31 @@
   "author": "Thibaud Michel",
   "license": "MIT",
   "peerDependencies": {
-    "mapbox-gl": ">1.10.0"
+    "maplibre-gl": ">=4.0.0"
   },
   "devDependencies": {
-    "@mapbox/mapbox-gl-geocoder": "^2.3.0",
     "@turf/centroid": "^6.5.0",
     "@types/geojson": "^7946.0.8",
-    "@types/mapbox__mapbox-gl-geocoder": "^4.7.2",
-    "@types/mapbox__point-geometry": "^0.1.2",
-    "@types/mapbox__vector-tile": "^1.3.0",
-    "@types/mapbox-gl": "^1.13.2",
     "@typescript-eslint/eslint-plugin": "^5.15.0",
     "@typescript-eslint/parser": "^5.15.0",
-    "dts-bundle-generator": "^6.5.0",
+    "dts-bundle-generator": "^9.5.1",
     "eslint": "^8.11.0",
     "events": "^3.3.0",
     "osmtogeojson": "^3.0.0-beta.5",
-    "typescript": "^4.6.2",
-    "vite": "^3.1.4"
+    "typescript": "^5.6.0",
+    "vite": "^6.4.3",
+    "maplibre-gl": "^6.6.0"
   },
   "dependencies": {
     "@turf/bbox": "^6.5.0",
     "@turf/destination": "^6.5.0",
-    "@turf/distance": "^6.5.0",
-    "mapbox-gl": "^1.13.2",
-    "maplibre-gl": "^2.4.0"
+    "@turf/distance": "^6.5.0"
   },
   "exports": {
     ".": {
-      "import": "./dist/lib/map-gl-indoor.es.js",
-      "require": "./dist/lib/map-gl-indoor.umd.js"
+      "types": "./dist/lib/maplibre-gl-indoor.d.ts",
+      "import": "./dist/lib/maplibre-gl-indoor.es.js",
+      "require": "./dist/lib/maplibre-gl-indoor.umd.js"
     }
   }
 }

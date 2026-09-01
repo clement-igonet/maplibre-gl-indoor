@@ -1,19 +1,17 @@
-import { Map as MapboxMap } from 'mapbox-gl';
+import { Map as MapLibreMap } from 'maplibre-gl';
 
-import accessToken from './mapbox-access-token';
 import { IndoorControl, MapServerHandler } from '../src/index';
 
-import 'mapbox-gl/dist/mapbox-gl.css';
+import 'maplibre-gl/dist/maplibre-gl.css';
 import './style.css';
 
 const app = document.querySelector<HTMLDivElement>('#app')!
 
-const map = new MapboxMap({
+const map = new MapLibreMap({
     container: app,
     zoom: 18,
     center: [2.3592843, 48.8767904],
-    style: 'mapbox://styles/mapbox/streets-v10',
-    accessToken,
+    style: 'https://tiles.openfreemap.org/styles/liberty',
     hash: true
 });
 

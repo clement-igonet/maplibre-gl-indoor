@@ -1,70 +1,60 @@
-# MapGL Indoor Plugin
+# maplibre-gl-indoor
 
-A [mapboxgl-js](https://github.com/mapbox/mapbox-gl-js) plugin to enable multi-floors maps
+A [MapLibre GL JS](https://maplibre.org/maplibre-gl-js/docs/) plugin for multi-floor indoor maps:
+give it an indoor GeoJSON, get a level selector and per-level filtering of your layers.
 
-The project should works with [maplibre-gl-js](https://github.com/maplibre/maplibre-gl-js) too.
+This is the MapLibre successor of [map-gl-indoor](https://github.com/map-gl-indoor/map-gl-indoor)
+by [Thibaud Michel](https://github.com/ThibaudM), modernized with his blessing and in its spirit:
+**small, readable, easy to understand**. Mapbox GL support is dropped; the target is
+`maplibre-gl >= 4`, and the examples run on keyless [OpenFreeMap](https://openfreemap.org) styles.
 
-__Note:__ This is a work in progress and we welcome contributions.
+## Install
 
-
-## Demo
-
-https://map-gl-indoor.github.io/
-
-<img src="https://user-images.githubusercontent.com/3089186/81498920-f2ed3300-92c7-11ea-8314-1a5175c5e73a.png" style="max-width:600px" />
-
-or examples in the [debug](debug) directory.
-
-## Usage
-
-Create an OSM indoor map following the [Simple Indoor Tagging guidelines](https://wiki.openstreetmap.org/wiki/Simple_Indoor_Tagging).
-
-Transform the osm file into a geojson using [osmtogeojson](https://github.com/tyrasd/osmtogeojson).
-
-Then use the following code:
-
-```js
-import { Map } from 'mapbox-gl';
-import { addIndoorTo, IndoorControl, IndoorMap } from 'map-gl-indoor';
-
-const map = new Map({
-    accessToken,
-    container,
-    style: 'mapbox://styles/mapbox/streets-v10'
-});
-
-// Create the indoor logic behind the map.indoor property
-addIndoorTo(map);
-
-// Retrieve the geojson from the path and add the map
-const geojson = await (await fetch('maps/gare-de-l-est.geojson')).json();
-const indoorMap = IndoorMap.fromGeojson(geojson);
-map.indoor.addMap(indoorMap);
-
-// Add the specific control
-map.addControl(new IndoorControl());
+```sh
+npm install maplibre-gl-indoor
 ```
 
-## Options
+Installing straight from GitHub also works — `dist/` is built on install:
 
-For the moment, refer to samples.
+```sh
+npm install github:map-gl-indoor/maplibre-gl-indoor
+```
 
+## Use
 
-## How does it work?
+```ts
+import {addIndoorTo, IndoorControl, IndoorMap} from 'maplibre-gl-indoor';
+import type {MaplibreMapWithIndoor} from 'maplibre-gl-indoor';
 
-The library parses the geojson to find [level tags](https://wiki.openstreetmap.org/wiki/Key:level) and retrieve the map range (minimum and maximum levels).
+const map = new maplibregl.Map({...}) as MaplibreMapWithIndoor;
+addIndoorTo(map);
 
-If the [viewport](https://github.com/mapbox/mapbox-gl-js/blob/master/src/ui/map.js#L601) of the map intersects the building bounds, then the map is selected and the `IndoorControl` is visible.
+const geojson = await (await fetch('building.geojson')).json();
+map.indoor.addMap(IndoorMap.fromGeojson(geojson));
+map.addControl(new IndoorControl());
 
-When a level is set (initialisation or user click), only the geojson features which have the level property equals (or in the range of) to the current level are shown.
+map.on('indoor.level.changed', ({level}) => console.log('level', level));
+```
 
+Events: `indoor.map.loaded`, `indoor.map.unloaded`, `indoor.level.changed`,
+`indoor.control.clicked`.
 
-## Provide geojson maps from a server
+## Examples
 
-Have a look at the side project [indoor-maps-server](https://github.com/map-gl-indoor/indoor-maps-server) and the file [debug/with-map-server.html](debug/with-map-server.html)
+`npm run dev` serves them locally (`npm install` first), or use the compose file without a
+node toolchain:
 
-## Developing
+```sh
+docker compose up dev        # or: podman-compose up dev
+```
 
-    npm install & npm run dev
+## Data
 
-Then, visit http://localhost:3000 to load the samples
+Features carry a `level` property: a number (`0`, `1.5`) or a `"min;max"` range (`"0;2"`).
+GeoJSON from OpenStreetMap works well — see `examples/from-osm-file` and the
+[osmtogeojson](https://github.com/tyrasd/osmtogeojson) tool.
+
+## License
+
+MIT. Original work © Thibaud Michel and map-gl-indoor contributors; modernization by
+[Clément Igonet](https://github.com/clement-igonet).

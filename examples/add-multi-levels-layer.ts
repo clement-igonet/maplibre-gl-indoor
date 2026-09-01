@@ -1,22 +1,20 @@
-import { Map as MapboxMap, Popup } from 'mapbox-gl';
+import { Map as MapLibreMap, Popup } from 'maplibre-gl';
 
-import accessToken from './mapbox-access-token';
-import { addIndoorTo, IndoorControl, IndoorMap, MapboxMapWithIndoor } from '../src/index';
+import { addIndoorTo, IndoorControl, IndoorMap, MaplibreMapWithIndoor } from '../src/index';
 
-import 'mapbox-gl/dist/mapbox-gl.css';
+import 'maplibre-gl/dist/maplibre-gl.css';
 import './style.css';
 import { Point } from 'geojson';
 
 const app = document.querySelector<HTMLDivElement>('#app')!
 
-const map = new MapboxMap({
+const map = new MapLibreMap({
     container: app,
     zoom: 18,
     center: [2.3592843, 48.8767904],
-    style: 'mapbox://styles/mapbox/streets-v10',
-    accessToken,
+    style: 'https://tiles.openfreemap.org/styles/liberty',
     hash: true
-}) as MapboxMapWithIndoor;
+}) as MaplibreMapWithIndoor;
 
 const mapLoadedPr = new Promise(resolve => map.on('load', resolve));
 
@@ -35,8 +33,7 @@ map.addControl(new IndoorControl());
 
 await mapLoadedPr;
 
-const image: ImageData = await new Promise(resolve => map.loadImage(
-    './img/red-marker.png', (_: string, image: ImageData) => resolve(image)));
+const image = (await map.loadImage('./img/red-marker.png')).data;
 map.addImage('poi', image);
 
 map.addSource('pois', {

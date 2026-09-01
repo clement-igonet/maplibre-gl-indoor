@@ -35,8 +35,8 @@ class IndoorControl {
 
         // Create container
         const container = this._container = document.createElement("div");
-        container.classList.add("mapboxgl-ctrl");
-        container.classList.add("mapboxgl-ctrl-group");
+        container.classList.add("maplibregl-ctrl");
+        container.classList.add("maplibregl-ctrl-group");
         container.style.display = 'none';
         container.addEventListener('contextmenu', this._onContextMenu);
 
@@ -48,9 +48,9 @@ class IndoorControl {
         }
 
         // Register to indoor events
-        this._map.on('indoor.map.loaded', this._onMapLoaded);
-        this._map.on('indoor.map.unloaded', this._onMapUnLoaded);
-        this._map.on('indoor.level.changed', this._onLevelChanged);
+        (this._map as MapGLWithIndoor).on('indoor.map.loaded', this._onMapLoaded);
+        (this._map as MapGLWithIndoor).on('indoor.map.unloaded', this._onMapUnLoaded);
+        (this._map as MapGLWithIndoor).on('indoor.level.changed', this._onLevelChanged);
 
         return container;
     }
@@ -121,10 +121,10 @@ class IndoorControl {
     _createLevelButton(container: HTMLElement, level: Level) {
         const a = document.createElement("button");
         a.innerHTML = level.toString();
-        a.classList.add("mapboxgl-ctrl-icon");
+        a.classList.add("maplibregl-ctrl-icon");
         container.appendChild(a);
         a.addEventListener('click', () => {
-            this._map?.fire('indoor.control.clicked', { level });
+            this._map?.fire('indoor.control.clicked' as never, { level } as never);
             if (this._indoor!.getLevel() === level) return;
             this._indoor!.setLevel(level);
         });
