@@ -6,3 +6,5 @@ export { default as DefaultStyle } from './style';
 export { default as addIndoorTo } from './addIndoorTo';
 
 export * from './Types';
+
+export * from './routing';
