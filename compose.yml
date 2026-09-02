@@ -2,6 +2,7 @@
 # Works with both `docker compose` and `podman-compose`.
 #
 #   docker compose up dev        # live dev server on http://localhost:5173
+#   docker compose run test      # unit tests
 #   docker compose run build     # one-shot: lib + examples + typings into dist/
 #   docker compose up preview    # serve the built examples on http://localhost:4173
 services:
@@ -16,6 +17,13 @@ services:
     environment:
       # vite HMR behind a proxy: override if needed (see issue #15)
       - CHOKIDAR_USEPOLLING=1
+
+  test:
+    image: docker.io/library/node:22-alpine
+    working_dir: /app
+    volumes:
+      - .:/app
+    command: sh -c "npm install --no-audit --no-fund && npm test"
 
   build:
     image: docker.io/library/node:22-alpine

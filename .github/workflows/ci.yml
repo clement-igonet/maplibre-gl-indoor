@@ -24,6 +24,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Tests via compose
+        run: docker compose run --rm test
+
       - name: Build via compose
         run: docker compose run --rm build
 

@@ -39,14 +39,19 @@ map.on('indoor.level.changed', ({level}) => console.log('level', level));
 Events: `indoor.map.loaded`, `indoor.map.unloaded`, `indoor.level.changed`,
 `indoor.control.clicked`.
 
-## Examples
+## Build and run
 
-`npm run dev` serves them locally (`npm install` first), or use the compose file without a
-node toolchain:
+The compose file is the reference way to build, test and run — docker or podman, no local
+node toolchain needed:
 
 ```sh
-docker compose up dev        # or: podman-compose up dev
+docker compose run test      # unit tests          (podman-compose works the same)
+docker compose run build     # lib + examples + typings into dist/
+docker compose up dev        # examples with live reload on :5173
+docker compose up preview    # the built examples on :4173
 ```
+
+`npm install` + `npm run dev` / `npm test` remain available for a local toolchain.
 
 ## Data
 
