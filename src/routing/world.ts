@@ -37,7 +37,7 @@ const levelsOf = (feature: Feature): Level[] => {
 
 const centroid = (ring: Position[]): Position =>
     [ring.reduce((s, c) => s + c[0], 0) / ring.length,
-     ring.reduce((s, c) => s + c[1], 0) / ring.length];
+        ring.reduce((s, c) => s + c[1], 0) / ring.length];
 
 /** Builds the routing view of an indoor GeoJSON, per Simple Indoor Tagging. */
 export function buildRoutingWorld(geojson: IndoorMapGeoJSON): RoutingWorld {
@@ -59,7 +59,7 @@ export function buildRoutingWorld(geojson: IndoorMapGeoJSON): RoutingWorld {
             if (levels.length < 2) continue;
             const position = geometry.type === 'Point' ? geometry.coordinates :
                 geometry.type === 'LineString' ? geometry.coordinates[Math.floor(geometry.coordinates.length / 2)] :
-                geometry.type === 'Polygon' ? centroid(geometry.coordinates[0]) : null;
+                    geometry.type === 'Polygon' ? centroid(geometry.coordinates[0]) : null;
             if (!position) continue;
             world.links.push({
                 position,
