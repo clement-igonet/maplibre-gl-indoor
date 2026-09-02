@@ -7,6 +7,8 @@ import {addIndoorTo, IndoorControl, IndoorMap}
     from 'https://clement-igonet.github.io/maplibre-gl-indoor/lib/maplibre-gl-indoor.es.js';
 ```
 
+[![Gare de l'Est rendered indoors, with the level selector](assets/screenshot.png)](https://clement-igonet.github.io/maplibre-gl-indoor/)
+
 A [MapLibre GL JS](https://maplibre.org/maplibre-gl-js/docs/) plugin for multi-floor indoor maps:
 give it an indoor GeoJSON, get a level selector and per-level filtering of your layers.
 
