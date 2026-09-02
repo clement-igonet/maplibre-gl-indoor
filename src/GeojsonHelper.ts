@@ -15,29 +15,43 @@ class GeoJsonHelper {
      * @returns {LevelsRange | number | null} the level or the range of level.
      */
     static extractLevelFromFeature(feature: Feature): (LevelsRange | number | null) {
-        if (!!feature.properties &&
-            feature.properties.level !== null) {
-            const propertyLevel = feature.properties['level'];
-            if (typeof propertyLevel === 'string') {
-                const splitLevel = propertyLevel.split(';');
-                if (splitLevel.length === 1) {
-                    const level = parseFloat(propertyLevel);
-                    if (!isNaN(level)) {
-                        return level;
-                    }
-                } else if (splitLevel.length === 2) {
-                    const level1 = parseFloat(splitLevel[0]);
-                    const level2 = parseFloat(splitLevel[1]);
-                    if (!isNaN(level1) && !isNaN(level2)) {
-                        return {
-                            min: Math.min(level1, level2),
-                            max: Math.max(level1, level2)
-                        };
-                    }
-                }
+        const raw = feature.properties ? feature.properties['level'] : null;
+        if (raw === undefined || raw === null) {
+            return null;
+        }
+        if (typeof raw === 'number') {
+            return isNaN(raw) ? null : raw;
+        }
+        if (typeof raw !== 'string') {
+            return null;
+        }
+        // Simple Indoor Tagging: level is a ";"-separated list of levels, where each
+        // item is a number (half floors like 0.5 included) or an "a-b" range.
+        // https://wiki.openstreetmap.org/wiki/Simple_Indoor_Tagging
+        let min = Infinity;
+        let max = -Infinity;
+        const range = /^(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?)$/;
+        const plain = /^-?\d+(?:\.\d+)?$/;
+        for (const token of raw.split(';')) {
+            const item = token.trim();
+            if (plain.test(item)) {
+                const level = parseFloat(item);
+                min = Math.min(min, level);
+                max = Math.max(max, level);
+                continue;
+            }
+            const match = range.exec(item);
+            if (match) {
+                const a = parseFloat(match[1]);
+                const b = parseFloat(match[2]);
+                min = Math.min(min, a, b);
+                max = Math.max(max, a, b);
             }
         }
-        return null;
+        if (min === Infinity) {
+            return null;
+        }
+        return min === max ? min : {min, max};
     }
 
     /**

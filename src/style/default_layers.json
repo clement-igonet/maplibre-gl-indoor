@@ -810,6 +810,64 @@
         }
     },
     {
+        "id": "indoor-doors",
+        "type": "circle",
+        "source": "indoor",
+        "filter": [
+            "all",
+            [
+                "any",
+                [
+                    "has",
+                    "door"
+                ],
+                [
+                    "has",
+                    "entrance"
+                ]
+            ],
+            [
+                "!",
+                [
+                    "filter-==",
+                    "door",
+                    "no"
+                ]
+            ]
+        ],
+        "paint": {
+            "circle-radius": {
+                "base": 1,
+                "stops": [
+                    [
+                        17,
+                        1.5
+                    ],
+                    [
+                        19,
+                        4
+                    ]
+                ]
+            },
+            "circle-color": "#a35b2d",
+            "circle-stroke-color": "#ffffff",
+            "circle-stroke-width": 1,
+            "circle-opacity": {
+                "base": 1,
+                "stops": [
+                    [
+                        17,
+                        0
+                    ],
+                    [
+                        17.25,
+                        1
+                    ]
+                ]
+            }
+        }
+    },
+    {
         "interactive": true,
         "minzoom": 17,
         "layout": {
