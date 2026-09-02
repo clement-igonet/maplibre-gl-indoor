@@ -27,6 +27,11 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build-examples
+      - name: Ship the library next to the demo, for no-install imports
+        run: |
+          npm run build-lib
+          mkdir -p dist/examples/lib
+          cp dist/lib/* dist/examples/lib/
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
