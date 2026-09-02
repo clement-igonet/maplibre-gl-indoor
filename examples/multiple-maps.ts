@@ -48,20 +48,13 @@ const geojsonMaps: ({ path: string, center: LngLatLike, defaultLevel?: number }[
 
 geojsonMaps.forEach(({ path, center }) => createMenuButton(path, center));
 
-// Where the indoor layers will be inserted.
-// Here, 'housenum-label' comes from streets-v10
-const beforeLayerId = 'housenum-label';
-
-// To avoid unwanted overlap from streets-v10 layers, some layers are hidden when an indoor map is shown
-const layersToHide = ['poi-scalerank4-l15', 'poi-scalerank4-l1', 'poi-scalerank3', 'road-label-small'];
-
 geojsonMaps.forEach(async ({ path, defaultLevel }) => {
 
     // Retrieve geojson from path
     const geojson = await (await fetch(path)).json();
 
     // Create indoor map from geojson and options
-    const indoorMap = IndoorMap.fromGeojson(geojson, { beforeLayerId, layersToHide, defaultLevel });
+    const indoorMap = IndoorMap.fromGeojson(geojson, { defaultLevel });
 
     // Add map to the indoor handler
     map.indoor.addMap(indoorMap);

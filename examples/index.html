@@ -1,25 +1,28 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="utf-8" />
-    <title>Index</title>
+    <title>maplibre-gl-indoor — examples</title>
     <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <style>
+        body { font: 15px/1.6 system-ui, sans-serif; margin: 2rem auto; max-width: 760px; padding: 0 1rem; color: #222; }
+        li { margin: .55rem 0; }
+        a { color: #0b6fb8; }
+    </style>
 </head>
-
 <body>
+    <h1>maplibre-gl-indoor — examples</h1>
+    <p>Each example demonstrates one capability of the
+       <a href="https://github.com/clement-igonet/maplibre-gl-indoor">plugin</a>.</p>
     <ul>
-        <li><a href="simple-map.html">Simple Map</a></li>
-        <li><a href="multiple-maps.html">Multiple Maps</a></li>
-        <li><a href="add-multi-levels-layer.html">Add a multi-levels layer (i.e. PoIs)</a></li>
-        <li><a href="custom-style.html">Custom Style</a></li>
-        <li><a href="events.html">Events</a></li>
-        <li><a href="from-osm-file.html">From OSM file</a></li>
-        <li><a href="search-engine.html">Search engine</a></li>
-        <li><a href="with-map-server.html">With Map Server</a></li>
-        <li><a href="maplibre.html">Maplibre</a></li>
+        <li><a href="simple-map.html"><b>The minimal setup</b></a> — One indoor GeoJSON, the level control, nothing else. Use the level selector on the right.</li>
+        <li><a href="multiple-maps.html"><b>Several buildings, one map</b></a> — Three indoor maps are registered; the plugin auto-selects the one in view. Use the buttons to fly between Gare de l’Est, Caserne de Bonne and Grand’Place.</li>
+        <li><a href="add-multi-levels-layer.html"><b>Your own layer, level-aware</b></a> — A custom PoI layer is added on top and filtered by the current level: switch levels and watch the red markers appear only on theirs.</li>
+        <li><a href="custom-style.html"><b>Custom indoor style</b></a> — The default indoor look is replaced by custom layers (blue rooms) passed to IndoorMap.fromGeojson.</li>
+        <li><a href="events.html"><b>Plugin events</b></a> — Every indoor event is appended to the log panel: load a map, switch levels.</li>
+        <li><a href="from-osm-file.html"><b>Straight from a raw .osm file</b></a> — The building is loaded from an OSM XML export and converted on the fly with osmtogeojson.</li>
+        <li><a href="search-engine.html"><b>Search the indoor features</b></a> — Type a name: results come from the indoor GeoJSON itself, clicking flies to the feature and selects its level.</li>
+        <li><a href="with-map-server.html"><b>Maps served by a backend</b></a> — MapServerHandler downloads indoor maps around the viewport from a server. This page needs one at localhost:4001, so it shows the wiring, not data.</li>
     </ul>
-
 </body>
-
 </html>
