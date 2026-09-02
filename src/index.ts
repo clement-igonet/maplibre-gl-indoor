@@ -8,3 +8,4 @@ export { default as addIndoorTo } from './addIndoorTo';
 export * from './Types';
 
 export * from './routing';
+export * from './walker';
