@@ -20,12 +20,13 @@ const map = new MapLibreMap({
  */
 const SERVER_URL = 'https://localhost:4001';
 
-const indoorMapsOptions = {
-    beforeLayerId: 'housenum-label',
-    layersToHide: ['poi-scalerank4-l15', 'poi-scalerank4-l1', 'poi-scalerank3', 'road-label-small']
-}
+MapServerHandler.manage(SERVER_URL, map);
 
-MapServerHandler.manage(SERVER_URL, map, indoorMapsOptions);
+// No server on this static demo: say it instead of failing silently.
+fetch(SERVER_URL, {mode: 'no-cors'}).catch(() => {
+    const note = document.querySelector('.explainer');
+    if (note) note.innerHTML += '<p><b>No map server reachable here</b> — run one at localhost:4001 to see maps load around the viewport.</p>';
+});
 
 // Add the specific control
 map.addControl(new IndoorControl());

@@ -28,7 +28,17 @@ map.indoor.addMap(IndoorMap.fromGeojson(geojson));
 // Add the specific control
 map.addControl(new IndoorControl());
 
-map.on('indoor.map.loaded', console.log);
-map.on('indoor.map.unloaded', console.log);
-map.on('indoor.level.changed', console.log);
-map.on('indoor.control.clicked', console.log);
+const log = document.createElement('div');
+log.id = 'event-log';
+document.body.appendChild(log);
+const logEvent = (name: string) => (ev: unknown) => {
+    const line = document.createElement('div');
+    const detail = ev && typeof ev === 'object' && 'level' in (ev as object)
+        ? ` level=${(ev as {level: unknown}).level}` : '';
+    line.textContent = `${new Date().toLocaleTimeString()}  ${name}${detail}`;
+    log.prepend(line);
+};
+map.on('indoor.map.loaded', logEvent('indoor.map.loaded'));
+map.on('indoor.map.unloaded', logEvent('indoor.map.unloaded'));
+map.on('indoor.level.changed', logEvent('indoor.level.changed'));
+map.on('indoor.control.clicked', logEvent('indoor.control.clicked'));
