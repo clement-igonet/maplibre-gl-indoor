@@ -1,5 +1,7 @@
 # maplibre-gl-indoor
 
+**[Try it here →](https://clement-igonet.github.io/maplibre-gl-indoor/)**
+
 A [MapLibre GL JS](https://maplibre.org/maplibre-gl-js/docs/) plugin for multi-floor indoor maps:
 give it an indoor GeoJSON, get a level selector and per-level filtering of your layers.
 
