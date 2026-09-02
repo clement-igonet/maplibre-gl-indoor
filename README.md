@@ -52,11 +52,14 @@ The compose file is the reference way to build, test and run — docker or podma
 node toolchain needed:
 
 ```sh
-docker compose run test      # unit tests          (podman-compose works the same)
-docker compose run build     # lib + examples + typings into dist/
-docker compose up dev        # examples with live reload on :5173
-docker compose up preview    # the built examples on :4173
+# docker                       # podman, same compose file
+docker compose run test        podman-compose run test        # unit tests
+docker compose run build       podman-compose run build       # lib + examples + typings into dist/
+docker compose up dev          podman-compose up dev          # live reload on :5173
+docker compose up preview      podman-compose up preview      # built examples on :4173
 ```
+
+Both paths are validated in CI on every push.
 
 `npm install` + `npm run dev` / `npm test` remain available for a local toolchain.
 
